@@ -83,20 +83,46 @@ const generateShope = () => {
 generateShope();
 
 const cardItem = document.getElementById("card-item");
+const length = document.getElementById("length");
 let selectedItem = [];
+
 const showCartItem = (id) => {
-    console.log(selectedItem);
     const search = cars.find((x) => x.id === id);
     selectedItem.push(search);
-    cardItem.innerHTML = selectedItem.map(x => `
-    <div class="flex justify-between gap-3 mt-2">
-    <img
-    width="40px"
-    src=${x.image}
-    alt=""
-/>
-    <h2 class=""> ${x.car_name}</h2>
-    <p>$${search.price}</p>
-    </div>
-    `).join('')
+    console.log(search);
+    const cardItem = document.getElementById("card-item");
+    const div = document.createElement("div");
+    div.classList.add("flex", "justify-between", "gap-3");
+    div.innerHTML = `
+    <img width="60px" src="${search.image}"/>
+    <h2 class="">${search.car_name}</h2>
+    <h2 class="" ><i onclick="decrement(event)" class="fa-solid fa-minus"></i> <span id="quantity">1</span> <i onclick="increment(event)" class="fa-solid fa-plus"></i> </h2>
+    <h2 class="">$<span id="price">${search.price}</span></h2>
+    
+    `;
+    cardItem.appendChild(div);
+};
+
+const increment = (id) => {
+    console.log(id.target.parentNode.children[1].innerText);
+    let quantity = +id.target.parentNode.children[1].innerText;
+    quantity = quantity +1;
+    id.target.parentNode.children[1].innerText = quantity;
+    // calculation(id, quantityValue);
+};
+const decrement = (id) => {
+    console.log(id.target.parentNode.children[1]);
+    console.log(id.target.parentNode.children[1].innerText);
+    let quantity = +id.target.parentNode.children[1].innerText;
+    if(quantity === 1) return;
+    quantity = quantity -1;
+    id.target.parentNode.children[1].innerText = quantity;
+    calculation(id, quantity);
+};
+
+const calculation = (id, quantity) => {
+    const price = document.getElementById("price");
+    const search = selectedItem.find((x) => x.id === id);
+    // price.innerHTML = search.price * quantity;
+    
 };
